@@ -43,10 +43,6 @@ namespace project
         Grid grd;
         TextBlock score;
         Ellipse lastPiece;
-        int rowFor;
-        int rowBack;
-        int colFor;
-        int colBack;
         public MainPage()
         {
             this.InitializeComponent();
@@ -349,8 +345,6 @@ namespace project
             ellipseP1.Visibility = Visibility.Collapsed;
             ellipseP1.Tapped += EllipseP1_Tapped;
         }
-        int column;
-        int row;
         private void peg(int xPos, int yPos)
         {
             for (int i = 0; i < 8; i++)
@@ -376,8 +370,6 @@ namespace project
                                 {
                                     piece.Name = "blackEllipse";
                                     piece.Fill = new SolidColorBrush(Colors.Black);
-                                    row = (int)piece.GetValue(Grid.RowProperty);
-                                    column = (int)piece.GetValue(Grid.ColumnProperty);
                                 }
                             }
                         }
@@ -385,7 +377,6 @@ namespace project
                 }
             }
         }
-
         private void EllipseP1_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Ellipse toChange = (Ellipse)FindName("Ellipse " + newPieceRow + "_" + newPieceColumn);
@@ -396,7 +387,7 @@ namespace project
             Debug.WriteLine("Name " + lastPiece.Name);
             ellipseP1.Visibility = Visibility.Collapsed;
             ellipseP2.Visibility = Visibility.Collapsed;
-           // peg(newPieceRow, newPieceColumn);
+            // peg(newPieceRow, newPieceColumn);
             white = 0;
             score.Text = "";
             countPieces("Player Score : ", "white", white, grd);
