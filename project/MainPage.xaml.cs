@@ -43,6 +43,10 @@ namespace project
         Grid grd;
         TextBlock score;
         Ellipse lastPiece;
+        int rowFor;
+        int rowBack;
+        int colFor;
+        int colBack;
         public MainPage()
         {
             this.InitializeComponent();
@@ -285,7 +289,7 @@ namespace project
                     {
                         ellipseP1.Visibility = Visibility.Visible;
                     }
-                    }
+                }
                 else
                 {
                     ellipseP1.Visibility = Visibility.Collapsed;
@@ -344,7 +348,44 @@ namespace project
             sp.Children.Add(ellipseP1);
             ellipseP1.Visibility = Visibility.Collapsed;
             ellipseP1.Tapped += EllipseP1_Tapped;
-        }        
+        }
+        int column;
+        int row;
+        private void peg(int xPos, int yPos)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                foreach (object obj in board.Children)
+                {
+                    if (typeof(Ellipse) == obj.GetType())
+                    {
+                        Ellipse piece;
+                        piece = (Ellipse)obj;
+                        if ((i > 0 && i < 8))
+                        {
+                            if (piece.Name.Contains("white"))
+                            {
+                                if (((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
+                                   ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1) ||
+                                   ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
+                                   ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
+                                   ((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1) ||
+                                   ((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
+                                   ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
+                                   ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1))
+                                {
+                                    piece.Name = "blackEllipse";
+                                    piece.Fill = new SolidColorBrush(Colors.Black);
+                                    row = (int)piece.GetValue(Grid.RowProperty);
+                                    column = (int)piece.GetValue(Grid.ColumnProperty);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void EllipseP1_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Ellipse toChange = (Ellipse)FindName("Ellipse " + newPieceRow + "_" + newPieceColumn);
@@ -352,9 +393,10 @@ namespace project
             toChange.Name = "white" + "Ellipse " + newPieceRow + "_" + newPieceColumn;
             lastPiece = toChange;
             toChange.Fill = original.Fill;
-            Debug.WriteLine("Name "+lastPiece.Name);
+            Debug.WriteLine("Name " + lastPiece.Name);
             ellipseP1.Visibility = Visibility.Collapsed;
             ellipseP2.Visibility = Visibility.Collapsed;
+           // peg(newPieceRow, newPieceColumn);
             white = 0;
             score.Text = "";
             countPieces("Player Score : ", "white", white, grd);
@@ -409,9 +451,11 @@ namespace project
             toChange.Name = "black" + "Ellipse " + newPieceRow + "_" + newPieceColumn;
             toChange.Fill = original.Fill;
             lastPiece = toChange;
-            Debug.WriteLine("Name "+lastPiece.Name);
+            Debug.WriteLine("Name " + lastPiece.Name);
             ellipseP2.Visibility = Visibility.Collapsed;
             ellipseP1.Visibility = Visibility.Collapsed;
+            //change name and colour
+            peg(newPieceRow, newPieceColumn);
             black = 0;
             score.Text = "";
             countPieces("Player Score : ", "black", black, grid);
