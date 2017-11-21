@@ -357,7 +357,7 @@ namespace project
             ellipseP2.Visibility = Visibility.Collapsed;
             white = 0;
             score.Text = "";
-            countPieces("Player 1 Score : ", "white", white, grd);
+            countPieces("Player Score : ", "white", white, grd);
         }
 
         private void countPieces(String player, String wOrbl, int wOrb, Grid g)
@@ -414,7 +414,7 @@ namespace project
             ellipseP1.Visibility = Visibility.Collapsed;
             black = 0;
             score.Text = "";
-            countPieces("Player 2 Score : ", "black", black, grid);
+            countPieces("Player Score : ", "black", black, grid);
         }
         private void playersScore(String player, HorizontalAlignment alli, Grid g)
         {
