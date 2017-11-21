@@ -28,13 +28,13 @@
     <AppXManifest Include="C:\Users\Nouman\Desktop\project\project\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-11-21T11:05:10.467</Modified>
+      <Modified>2017-11-21T12:37:48.050</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\bin\x86\Debug\project.exe">
       <PackagePath>entrypoint\project.exe</PackagePath>
-      <Modified>2017-11-21T11:05:10.125</Modified>
+      <Modified>2017-11-21T12:37:47.644</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\.nuget\packages\Microsoft.CSharp\4.0.0\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -501,7 +501,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\bin\x86\Debug\Core\project.exe">
       <PackagePath>project.exe</PackagePath>
-      <Modified>2017-11-21T11:05:10.463</Modified>
+      <Modified>2017-11-21T12:37:48.047</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

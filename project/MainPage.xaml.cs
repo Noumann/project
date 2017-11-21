@@ -42,6 +42,7 @@ namespace project
         Grid grid;
         Grid grd;
         TextBlock score;
+        Ellipse lastPiece;
         public MainPage()
         {
             this.InitializeComponent();
@@ -271,9 +272,20 @@ namespace project
                 {
                     Debug.WriteLine(newPieceRow + " and " + newPieceColumn);
                     creatNewPiece(newPieceRow, newPieceColumn, new SolidColorBrush());
-                    ellipseP1.Visibility = Visibility.Visible;
-                    ellipseP2.Visibility = Visibility.Visible;
-                }
+                    if (lastPiece == null)
+                    {
+                        ellipseP2.Visibility = Visibility.Visible;
+                        ellipseP1.Visibility = Visibility.Visible;
+                    }
+                    else if (lastPiece.Name.StartsWith("white"))
+                    {
+                        ellipseP2.Visibility = Visibility.Visible;
+                    }
+                    else if (lastPiece.Name.StartsWith("black"))
+                    {
+                        ellipseP1.Visibility = Visibility.Visible;
+                    }
+                    }
                 else
                 {
                     ellipseP1.Visibility = Visibility.Collapsed;
@@ -332,15 +344,15 @@ namespace project
             sp.Children.Add(ellipseP1);
             ellipseP1.Visibility = Visibility.Collapsed;
             ellipseP1.Tapped += EllipseP1_Tapped;
-        }
-
+        }        
         private void EllipseP1_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Ellipse toChange = (Ellipse)FindName("Ellipse " + newPieceRow + "_" + newPieceColumn);
             Ellipse original = (Ellipse)sender;
             toChange.Name = "white" + "Ellipse " + newPieceRow + "_" + newPieceColumn;
+            lastPiece = toChange;
             toChange.Fill = original.Fill;
-            Debug.WriteLine(toChange.Name);
+            Debug.WriteLine("Name "+lastPiece.Name);
             ellipseP1.Visibility = Visibility.Collapsed;
             ellipseP2.Visibility = Visibility.Collapsed;
             white = 0;
@@ -396,7 +408,8 @@ namespace project
             Ellipse original = (Ellipse)sender;
             toChange.Name = "black" + "Ellipse " + newPieceRow + "_" + newPieceColumn;
             toChange.Fill = original.Fill;
-            Debug.WriteLine(toChange.Name);
+            lastPiece = toChange;
+            Debug.WriteLine("Name "+lastPiece.Name);
             ellipseP2.Visibility = Visibility.Collapsed;
             ellipseP1.Visibility = Visibility.Collapsed;
             black = 0;
