@@ -58,6 +58,9 @@ namespace project
             mainSP.HorizontalAlignment = HorizontalAlignment.Center;
             mainSP.Orientation = Orientation.Horizontal;
             rootGrid.Children.Add(mainSP);
+            PlaneProjection projection = new PlaneProjection();
+            projection.RotationX = -0;
+            mainSP.Projection = projection;
             player1StackPanel();
             boardStackPanel();
             player2StackPanel();
@@ -367,7 +370,29 @@ namespace project
                             piece.Name = "blackEllipse";
                             piece.Fill = new SolidColorBrush(Colors.Black);
                         }
-                    }
+                       else if (piece.Name.Contains("white"))
+                        {
+                            if (((int)piece.GetValue(Grid.RowProperty) == xPos - 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
+                               ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 2) ||
+                               ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 2) ||
+                               ((int)piece.GetValue(Grid.RowProperty) == xPos + 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
+                               ((int)piece.GetValue(Grid.RowProperty) == xPos - 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 2) ||
+                               ((int)piece.GetValue(Grid.RowProperty) == xPos - 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 2) ||
+                               ((int)piece.GetValue(Grid.RowProperty) == xPos + 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 2) ||
+                               ((int)piece.GetValue(Grid.RowProperty) == xPos + 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 2))
+                            {
+                                piece.Name = "blackEllipse";
+                                piece.Fill = new SolidColorBrush(Colors.Black);
+                            }else
+                            {
+                                if(((int)piece.GetValue(Grid.RowProperty) == xPos - 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos))
+                                {
+                                    piece.Name = "blackEllipse";
+                                    piece.Fill = new SolidColorBrush(Colors.Black);
+                                }
+                            }
+                        }
+                        }
                 }
             }
         }
@@ -381,6 +406,7 @@ namespace project
             Debug.WriteLine("Name " + lastPiece.Name);
             ellipseP1.Visibility = Visibility.Collapsed;
             ellipseP2.Visibility = Visibility.Collapsed;
+            peg(newPieceRow, newPieceColumn);
             white = 0;
             score.Text = "";
             countPieces("Player Score : ", "white", white, grd);
@@ -440,7 +466,7 @@ namespace project
             ellipseP2.Visibility = Visibility.Collapsed;
             ellipseP1.Visibility = Visibility.Collapsed;
             //change name and colour
-            peg(newPieceRow, newPieceColumn);
+            //peg(newPieceRow, newPieceColumn);
             black = 0;
             score.Text = "";
             countPieces("Player Score : ", "black", black, grid);
