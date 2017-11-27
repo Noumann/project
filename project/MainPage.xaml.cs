@@ -43,6 +43,111 @@ namespace project
         Grid grd;
         TextBlock score;
         Ellipse lastPiece;
+        int rows = 8;
+
+
+
+        /// <summary>
+        /// JUSTIN
+        /// </summary>
+        List<Ellipse> foundPiecesList = new List<Ellipse>();
+
+        private void checkPossibleFlips(Ellipse el)
+        {
+
+
+            // using the grid reference, starting with straight up, 
+
+
+            checkDirection(el, 0, -1);
+        }
+
+
+        // xDir and yDir should ONLY be 1, 0 or -1
+        // y+ = next row
+        // x+ = next col
+        private void checkDirection(Ellipse el, int xDir, int yDir)
+        {
+
+
+
+            // only search within the actual board
+            //Ellipse match = this.board.FindName("whiteEllipse " + newPieceRow + "_" + newPieceColumn) as Ellipse;
+
+
+
+            // reinitialise the list
+            foundPiecesList = new List<Ellipse>();
+            // 
+            bool stillSearching = true;
+
+
+            // get the grid reference where the last piece was added
+            // get the grid reference of the ellipse
+            int xPos = (int)el.GetValue(Grid.ColumnProperty);
+            int yPos = (int)el.GetValue(Grid.RowProperty);
+
+            // 
+            int matchXPos, matchYPos;
+
+            // senderColor is equal to last added ellipse colour
+            Brush colourToCheck = el.Fill;
+
+            // find all ellipse in a straight line from xPos, yPos in the grid
+
+            //for (int i = xPos; i < rows && i >= 0; i += xDir)
+            //{
+
+            for (int j = yPos; j < rows && j >= 0; j += yDir)
+            {
+
+                foreach (var item in this.board.Children)
+                {
+                    if (item.GetType() == typeof(Ellipse))
+                    {
+                        Ellipse foundEllipse = (Ellipse)item;
+                        if ((int)foundEllipse.GetValue(Grid.ColumnProperty) == xPos)
+                        {
+                            if ((int)foundEllipse.GetValue(Grid.RowProperty) == j)
+                            {
+                                foundPiecesList.Add(foundEllipse);
+                                Debug.WriteLine("FOUND ELLIPSE" + foundEllipse.Name);
+                            }
+                        }
+                    }
+                }
+                //    }
+
+                //}
+
+                // use these to test list is contiguous
+                int testXPos, testYPos;
+                testXPos = xPos;
+                testYPos = yPos;
+
+
+                Boolean listIsContiguous = true;
+
+                // using xDir and yDir
+
+                // loop through the listm making sure that each piece in the list is next to another
+                foreach(Ellipse elllll in foundPiecesList)
+                {
+                    if (((int)elllll.GetValue(Grid.ColumnProperty) == testXPos + xDir) && (int)elllll.GetValue(Grid.RowProperty) == testYPos + yDir){
+                        listIsContiguous = true;
+                    } else
+                    {
+                        listIsContiguous = false;
+                        
+                    }
+
+                }
+
+                Debug.WriteLine("List is Contiguous = " + listIsContiguous);
+                // also check for colours
+            }
+        }
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -58,9 +163,6 @@ namespace project
             mainSP.HorizontalAlignment = HorizontalAlignment.Center;
             mainSP.Orientation = Orientation.Horizontal;
             rootGrid.Children.Add(mainSP);
-            PlaneProjection projection = new PlaneProjection();
-            projection.RotationX = -0;
-            mainSP.Projection = projection;
             player1StackPanel();
             boardStackPanel();
             player2StackPanel();
@@ -99,6 +201,7 @@ namespace project
             gridForPlayer2Ellip(player2SP);
             gridForScoree();
         }
+
 
         private bool SquareHasPiece(int xPos, int yPos)
         {
@@ -156,7 +259,7 @@ namespace project
             board.Width = 700;
             board.Background = new SolidColorBrush(Colors.Beige);
             board.Margin = new Thickness(5);
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < rows; i++)
             {
                 board.RowDefinitions.Add(new RowDefinition());
                 board.ColumnDefinitions.Add(new ColumnDefinition());
@@ -370,29 +473,7 @@ namespace project
                             piece.Name = "blackEllipse";
                             piece.Fill = new SolidColorBrush(Colors.Black);
                         }
-                       else if (piece.Name.Contains("white"))
-                        {
-                            if (((int)piece.GetValue(Grid.RowProperty) == xPos - 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
-                               ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 2) ||
-                               ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 2) ||
-                               ((int)piece.GetValue(Grid.RowProperty) == xPos + 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
-                               ((int)piece.GetValue(Grid.RowProperty) == xPos - 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 2) ||
-                               ((int)piece.GetValue(Grid.RowProperty) == xPos - 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 2) ||
-                               ((int)piece.GetValue(Grid.RowProperty) == xPos + 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 2) ||
-                               ((int)piece.GetValue(Grid.RowProperty) == xPos + 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 2))
-                            {
-                                piece.Name = "blackEllipse";
-                                piece.Fill = new SolidColorBrush(Colors.Black);
-                            }else
-                            {
-                                if(((int)piece.GetValue(Grid.RowProperty) == xPos - 2) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos))
-                                {
-                                    piece.Name = "blackEllipse";
-                                    piece.Fill = new SolidColorBrush(Colors.Black);
-                                }
-                            }
-                        }
-                        }
+                    }
                 }
             }
         }
@@ -401,12 +482,14 @@ namespace project
             Ellipse toChange = (Ellipse)FindName("Ellipse " + newPieceRow + "_" + newPieceColumn);
             Ellipse original = (Ellipse)sender;
             toChange.Name = "white" + "Ellipse " + newPieceRow + "_" + newPieceColumn;
+
+            // 
             lastPiece = toChange;
             toChange.Fill = original.Fill;
             Debug.WriteLine("Name " + lastPiece.Name);
             ellipseP1.Visibility = Visibility.Collapsed;
             ellipseP2.Visibility = Visibility.Collapsed;
-            peg(newPieceRow, newPieceColumn);
+            checkPossibleFlips(toChange);
             white = 0;
             score.Text = "";
             countPieces("Player Score : ", "white", white, grd);
@@ -466,7 +549,8 @@ namespace project
             ellipseP2.Visibility = Visibility.Collapsed;
             ellipseP1.Visibility = Visibility.Collapsed;
             //change name and colour
-            //peg(newPieceRow, newPieceColumn);
+            peg(newPieceRow, newPieceColumn);
+            checkPossibleFlips(toChange);
             black = 0;
             score.Text = "";
             countPieces("Player Score : ", "black", black, grid);
