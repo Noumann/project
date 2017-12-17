@@ -25,11 +25,7 @@ namespace project
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPage()
-        {
-            this.InitializeComponent();
-            mainStackPanel();
-        }
+
 
         StackPanel mainSP;
         StackPanel boardSP;
@@ -37,8 +33,16 @@ namespace project
         Grid board;
         Border border;
         Button btn;
+        Grid gridForSP;
+        int numOfClicks = 0;
         int rows = 5;
         int buttonName = 1;
+
+        public MainPage()
+        {
+            this.InitializeComponent();
+            mainStackPanel();
+        }
 
 
         private void mainStackPanel()
@@ -95,10 +99,10 @@ namespace project
                     {
                         btn.Content = "";
                         buttonName--;
-                    }
-
+                    }                    
                     buttonsForGrid("" + buttonName, r, c);
                     buttonName++;
+                    Debug.WriteLine(btn.Name);
                 }
             }
         }
@@ -134,11 +138,13 @@ namespace project
             scoreSP.Height = 500;
             scoreSP.Width = 300;
             mainSP.Children.Add(scoreSP);
+            gridForScoreSP();
         }
 
         private void buttonsForGrid(String btnName, int row, int column)
         {
             btn = new Button();
+            btn.Name = "Button" + row+"_"+column;
             btn.Width = 95;
             btn.Height = 95;
             btn.Margin = new Thickness(3);
@@ -148,6 +154,42 @@ namespace project
             btn.Background = new SolidColorBrush(Colors.Khaki);
             board.Children.Add(btn);
             btn.Click += Btn_Click;
+        }
+
+        private void gridForScoreSP()
+        {
+            gridForSP = new Grid();
+            gridForSP.Name = "board";
+            gridForSP.HorizontalAlignment = HorizontalAlignment.Center;
+            gridForSP.VerticalAlignment = VerticalAlignment.Top;
+            gridForSP.Height = 490;
+            gridForSP.Width = 300;
+            gridForSP.Background = new SolidColorBrush(Colors.LightPink);
+            gridForSP.Margin = new Thickness(5);
+            for (int i = 0; i < 4; i++)
+            {
+                gridForSP.RowDefinitions.Add(new RowDefinition());
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                gridForSP.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            scoreSP.Children.Add(gridForSP);
+            textFields(0,0,"Clicks : ","clicks");
+            textFields(0, 1, ""+numOfClicks,"score");
+        }
+
+        private void textFields(int row,int column,String txt,String name)
+        {
+            TextBlock text = new TextBlock();
+            text.Text = txt;
+            text.Name = name;
+            text.Margin = new Thickness(10);
+            text.SetValue(Grid.RowProperty,row);
+            text.SetValue(Grid.ColumnProperty, column);
+            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.VerticalAlignment = VerticalAlignment.Center;
+            gridForSP.Children.Add(text);
         }
 
         private void Btn_Click(object sender, RoutedEventArgs e)
@@ -171,6 +213,32 @@ namespace project
                         {
                             butn.Content = buttonClicked.Content;
                             buttonClicked.Content = "";
+                            TextBlock txt = FindName("score") as TextBlock;
+                            numOfClicks++;
+                            txt.Text = "" + numOfClicks;
+                            solvedOrNot();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void solvedOrNot()
+        {
+            Button but = FindName("Button" + 0 +"_" + 0) as Button;
+            if (but.Content.Equals("1"))
+            {
+                but = FindName("Button" + 0 + "_" + 1) as Button;
+                if (but.Content.Equals("2"))
+                {
+                    but = FindName("Button" + 0 + "_" + 2) as Button;
+                    if (but.Content.Equals("3"))
+                    {
+                        but = FindName("Button" + 0 + "_" + 3) as Button;
+                        if (but.Content.Equals("4"))
+                        {
+                            TextBlock txt = FindName("score") as TextBlock;
+                            txt.Text = "Done";
                         }
                     }
                 }
