@@ -25,134 +25,21 @@ namespace project
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        StackPanel mainSP;
-        StackPanel boardSP;
-        Border border;
-        Grid board;
-        StackPanel player1SP;
-        StackPanel player2SP;
-        int newPieceRow;
-        int newPieceColumn;
-        Ellipse ellipseP1;
-        Ellipse ellipseP2;
-        int white = 0;
-        int black = 0;
-        int rowCount;
-        int colCount;
-        Grid grid;
-        Grid grd;
-        TextBlock score;
-        Ellipse lastPiece;
-        int rows = 8;
-
-
-
-        /// <summary>
-        /// JUSTIN
-        /// </summary>
-        List<Ellipse> foundPiecesList = new List<Ellipse>();
-
-        private void checkPossibleFlips(Ellipse el)
-        {
-
-
-            // using the grid reference, starting with straight up, 
-
-
-            checkDirection(el, 0, -1);
-        }
-
-
-        // xDir and yDir should ONLY be 1, 0 or -1
-        // y+ = next row
-        // x+ = next col
-        private void checkDirection(Ellipse el, int xDir, int yDir)
-        {
-
-
-
-            // only search within the actual board
-            //Ellipse match = this.board.FindName("whiteEllipse " + newPieceRow + "_" + newPieceColumn) as Ellipse;
-
-
-
-            // reinitialise the list
-            foundPiecesList = new List<Ellipse>();
-            // 
-            bool stillSearching = true;
-
-
-            // get the grid reference where the last piece was added
-            // get the grid reference of the ellipse
-            int xPos = (int)el.GetValue(Grid.ColumnProperty);
-            int yPos = (int)el.GetValue(Grid.RowProperty);
-
-            // 
-            int matchXPos, matchYPos;
-
-            // senderColor is equal to last added ellipse colour
-            Brush colourToCheck = el.Fill;
-
-            // find all ellipse in a straight line from xPos, yPos in the grid
-
-            //for (int i = xPos; i < rows && i >= 0; i += xDir)
-            //{
-
-            for (int j = yPos; j < rows && j >= 0; j += yDir)
-            {
-
-                foreach (var item in this.board.Children)
-                {
-                    if (item.GetType() == typeof(Ellipse))
-                    {
-                        Ellipse foundEllipse = (Ellipse)item;
-                        if ((int)foundEllipse.GetValue(Grid.ColumnProperty) == xPos)
-                        {
-                            if ((int)foundEllipse.GetValue(Grid.RowProperty) == j)
-                            {
-                                foundPiecesList.Add(foundEllipse);
-                                Debug.WriteLine("FOUND ELLIPSE" + foundEllipse.Name);
-                            }
-                        }
-                    }
-                }
-                //    }
-
-                //}
-
-                // use these to test list is contiguous
-                int testXPos, testYPos;
-                testXPos = xPos;
-                testYPos = yPos;
-
-
-                Boolean listIsContiguous = true;
-
-                // using xDir and yDir
-
-                // loop through the listm making sure that each piece in the list is next to another
-                foreach(Ellipse elllll in foundPiecesList)
-                {
-                    if (((int)elllll.GetValue(Grid.ColumnProperty) == testXPos + xDir) && (int)elllll.GetValue(Grid.RowProperty) == testYPos + yDir){
-                        listIsContiguous = true;
-                    } else
-                    {
-                        listIsContiguous = false;
-                        
-                    }
-
-                }
-
-                Debug.WriteLine("List is Contiguous = " + listIsContiguous);
-                // also check for colours
-            }
-        }
-
         public MainPage()
         {
             this.InitializeComponent();
             mainStackPanel();
         }
+
+        StackPanel mainSP;
+        StackPanel boardSP;
+        StackPanel scoreSP;
+        Grid board;
+        Border border;
+        Button btn;
+        int rows = 5;
+        int buttonName = 1;
+
 
         private void mainStackPanel()
         {
@@ -163,22 +50,10 @@ namespace project
             mainSP.HorizontalAlignment = HorizontalAlignment.Center;
             mainSP.Orientation = Orientation.Horizontal;
             rootGrid.Children.Add(mainSP);
-            player1StackPanel();
             boardStackPanel();
-            player2StackPanel();
+            scoreStackPanel();
         }
-        private void player1StackPanel()
-        {
-            player1SP = new StackPanel();
-            player1SP.Name = "Player1SP";
-            player1SP.Background = new SolidColorBrush(Colors.Tomato);
-            player1SP.VerticalAlignment = VerticalAlignment.Top;
-            player1SP.Margin = new Thickness(5);
-            player1SP.Orientation = Orientation.Vertical;
-            mainSP.Children.Add(player1SP);
-            gridForPlayer1Ellip(player1SP);
-            gridForScore();
-        }
+
         private void boardStackPanel()
         {
             boardSP = new StackPanel();
@@ -189,75 +64,16 @@ namespace project
             mainSP.Children.Add(boardSP);
             creatBoard();
         }
-        private void player2StackPanel()
-        {
-            player2SP = new StackPanel();
-            player2SP.Name = "player2SP";
-            player2SP.Background = new SolidColorBrush(Colors.Blue);
-            player2SP.VerticalAlignment = VerticalAlignment.Top;
-            player2SP.Margin = new Thickness(5);
-            player2SP.Orientation = Orientation.Vertical;
-            mainSP.Children.Add(player2SP);
-            gridForPlayer2Ellip(player2SP);
-            gridForScoree();
-        }
 
-
-        private bool SquareHasPiece(int xPos, int yPos)
-        {
-            foreach (object obj in board.Children)
-            {
-                if (typeof(Ellipse) == obj.GetType())
-                {
-                    Ellipse piece;
-                    piece = (Ellipse)obj;
-                    if (piece.Name.Contains("white") || piece.Name.Contains("black"))
-                    {
-                        if (((int)piece.GetValue(Grid.ColumnProperty) == xPos) && ((int)piece.GetValue(Grid.RowProperty) == yPos))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        private bool SquareAllowedPiece(int xPos, int yPos)
-        {
-            foreach (object obj in board.Children)
-            {
-                if (typeof(Ellipse) == obj.GetType())
-                {
-                    Ellipse piece;
-                    piece = (Ellipse)obj;
-                    if (piece.Name.Contains("white") || piece.Name.Contains("black"))
-                    {
-                        if (((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
-                            ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1) ||
-                            ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
-                            ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
-                            ((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1) ||
-                            ((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
-                            ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
-                            ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
         private void creatBoard()
         {
             board = new Grid();
             board.Name = "board";
             board.HorizontalAlignment = HorizontalAlignment.Center;
             board.VerticalAlignment = VerticalAlignment.Top;
-            board.Height = 700;
-            board.Width = 700;
-            board.Background = new SolidColorBrush(Colors.Beige);
+            board.Height = 500;
+            board.Width = 500;
+            board.Background = new SolidColorBrush(Colors.Cornsilk);
             board.Margin = new Thickness(5);
             for (int i = 0; i < rows; i++)
             {
@@ -266,304 +82,99 @@ namespace project
             }
             boardSP.Children.Add(board);
             borderForBoard();
-            createWhiteEllipse(3, 3, new SolidColorBrush(Colors.White));
-            createWhiteEllipse(4, 4, new SolidColorBrush(Colors.White));
-            createBlackEllipse(3, 4, new SolidColorBrush(Colors.Black));
-            createBlackEllipse(4, 3, new SolidColorBrush(Colors.Black));
-        }
-        private void gridForPlayer1Ellip(StackPanel p)
-        {
-            Grid grdidP1 = new Grid();
-            grdidP1.Name = "player1Ellipse";
-            grdidP1.HorizontalAlignment = HorizontalAlignment.Center;
-            grdidP1.VerticalAlignment = VerticalAlignment.Top;
-            grdidP1.Height = 85;
-            grdidP1.Width = 150;
-            grdidP1.Background = new SolidColorBrush(Colors.Coral);
-            grdidP1.Margin = new Thickness(2);
-            for (int i = 0; i < 1; i++)
-            {
-                grdidP1.RowDefinitions.Add(new RowDefinition());
-                grdidP1.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-            p.Children.Add(grdidP1);
-            createPlayer1Ellipse(grdidP1);
-        }
-        private void gridForPlayer2Ellip(StackPanel p)
-        {
-            Grid grdidP2 = new Grid();
-            grdidP2.Name = "player2Ellipse";
-            grdidP2.HorizontalAlignment = HorizontalAlignment.Center;
-            grdidP2.VerticalAlignment = VerticalAlignment.Top;
-            grdidP2.Height = 85;
-            grdidP2.Width = 150;
-            grdidP2.Background = new SolidColorBrush(Colors.Coral);
-            grdidP2.Margin = new Thickness(2);
-            for (int i = 0; i < 1; i++)
-            {
-                grdidP2.RowDefinitions.Add(new RowDefinition());
-                grdidP2.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-            p.Children.Add(grdidP2);
-            createPlayer2Ellipse(grdidP2);
-        }
 
-        private void gridForScore()
-        {
-            grd = new Grid();
-            grd.Name = "scoreGridP1";
-            grd.HorizontalAlignment = HorizontalAlignment.Center;
-            grd.VerticalAlignment = VerticalAlignment.Top;
-            grd.Height = 605;
-            grd.Width = 150;
-            grd.Background = new SolidColorBrush(Colors.BurlyWood);
-            grd.Margin = new Thickness(1);
-            for (int i = 0; i < 1; i++)
+            Random rand = new Random();
+            int row = rand.Next(0, 5);
+            int column = rand.Next(0, 5);
+
+            for (int r = 0; r < rows; r++)
             {
-                grd.RowDefinitions.Add(new RowDefinition());
-                grd.ColumnDefinitions.Add(new ColumnDefinition());
+                for (int c = 0; c < rows; c++)
+                {
+                    if (r == row && c == column)
+                    {
+                        btn.Content = "";
+                        buttonName--;
+                    }
+
+                    buttonsForGrid("" + buttonName, r, c);
+                    buttonName++;
+                }
             }
-            player1SP.Children.Add(grd);
-            playersScore("", HorizontalAlignment.Left, grd);
-        }
-        private void gridForScoree()
-        {
-            grid = new Grid();
-            grid.Name = "scoreGridP2";
-            grid.HorizontalAlignment = HorizontalAlignment.Center;
-            grid.VerticalAlignment = VerticalAlignment.Top;
-            grid.Height = 605;
-            grid.Width = 150;
-            grid.Background = new SolidColorBrush(Colors.BurlyWood);
-            grid.Margin = new Thickness(1);
-            for (int i = 0; i < 1; i++)
-            {
-                grid.RowDefinitions.Add(new RowDefinition());
-                grid.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-            player2SP.Children.Add(grid);
-            playersScore("", HorizontalAlignment.Left, grid);
         }
 
         private void borderForBoard()
         {
-            for (int row = 0; row < 8; row++)
+            for (int row = 0; row < rows; row++)
             {
-                for (int col = 0; col < 8; col++)
+                for (int col = 0; col < rows; col++)
                 {
                     border = new Border();
                     border.Name = "border";
-                    border.Height = 86;
-                    border.Width = 86;
+                    border.Height = 98;
+                    border.Width = 98;
                     border.HorizontalAlignment = HorizontalAlignment.Center;
                     border.VerticalAlignment = VerticalAlignment.Center;
                     border.SetValue(Grid.RowProperty, row);
                     border.SetValue(Grid.ColumnProperty, col);
-                    border.Background = new SolidColorBrush(Colors.Violet);
+                    border.Background = new SolidColorBrush(Colors.MediumSeaGreen);
                     board.Children.Add(border);
-                    border.Tapped += Border_Tapped;
                 }
             }
         }
 
-        private void Border_Tapped(object sender, TappedRoutedEventArgs e)
+        private void scoreStackPanel()
         {
-            Border boardValue = (Border)sender;
-            newPieceRow = (int)boardValue.GetValue(Grid.RowProperty);
-            newPieceColumn = (int)boardValue.GetValue(Grid.ColumnProperty);
-            if (SquareAllowedPiece(newPieceRow, newPieceColumn))
-            {
-                Debug.WriteLine(newPieceRow + " " + newPieceColumn);
-                if (!SquareHasPiece(newPieceColumn, newPieceRow))
-                {
-                    Debug.WriteLine(newPieceRow + " and " + newPieceColumn);
-                    creatNewPiece(newPieceRow, newPieceColumn, new SolidColorBrush());
-                    if (lastPiece == null)
-                    {
-                        ellipseP2.Visibility = Visibility.Visible;
-                        ellipseP1.Visibility = Visibility.Visible;
-                    }
-                    else if (lastPiece.Name.StartsWith("white"))
-                    {
-                        ellipseP2.Visibility = Visibility.Visible;
-                    }
-                    else if (lastPiece.Name.StartsWith("black"))
-                    {
-                        ellipseP1.Visibility = Visibility.Visible;
-                    }
-                }
-                else
-                {
-                    ellipseP1.Visibility = Visibility.Collapsed;
-                    ellipseP2.Visibility = Visibility.Collapsed;
-                }
-            }
-            else
-            {
-                ellipseP1.Visibility = Visibility.Collapsed;
-                ellipseP2.Visibility = Visibility.Collapsed;
-            }
-        }
-        private void creatNewPiece(int row, int column, SolidColorBrush color)
-        {
-            Ellipse ellip = new Ellipse();
-            ellip.Name = "Ellipse " + row + "_" + column;
-            ellip.Width = 40;
-            ellip.Height = 40;
-            ellip.Fill = color;
-            ellip.SetValue(Grid.RowProperty, row);
-            ellip.SetValue(Grid.ColumnProperty, column);
-            board.Children.Add(ellip);
+            scoreSP = new StackPanel();
+            scoreSP.Name = "scoreSP";
+            scoreSP.Background = new SolidColorBrush(Colors.Goldenrod);
+            scoreSP.VerticalAlignment = VerticalAlignment.Top;
+            scoreSP.Margin = new Thickness(5);
+            scoreSP.Orientation = Orientation.Vertical;
+            scoreSP.Height = 500;
+            scoreSP.Width = 300;
+            mainSP.Children.Add(scoreSP);
         }
 
-        private void createWhiteEllipse(int row, int column, SolidColorBrush color)
+        private void buttonsForGrid(String btnName, int row, int column)
         {
-            Ellipse ellipWhite = new Ellipse();
-            ellipWhite.Name = "whiteEllipse " + row + "_" + column;
-            ellipWhite.Width = 40;
-            ellipWhite.Height = 40;
-            ellipWhite.Fill = color;
-            ellipWhite.SetValue(Grid.RowProperty, row);
-            ellipWhite.SetValue(Grid.ColumnProperty, column);
-            board.Children.Add(ellipWhite);
+            btn = new Button();
+            btn.Width = 95;
+            btn.Height = 95;
+            btn.Margin = new Thickness(3);
+            btn.Content = btnName;
+            btn.SetValue(Grid.RowProperty, row);
+            btn.SetValue(Grid.ColumnProperty, column);
+            btn.Background = new SolidColorBrush(Colors.Khaki);
+            board.Children.Add(btn);
+            btn.Click += Btn_Click;
         }
-        private void createBlackEllipse(int row, int column, SolidColorBrush color)
+
+        private void Btn_Click(object sender, RoutedEventArgs e)
         {
-            Ellipse ellipBlack = new Ellipse();
-            ellipBlack.Name = "blackEllipse " + row + "_" + column;
-            ellipBlack.Width = 40;
-            ellipBlack.Height = 40;
-            ellipBlack.Fill = color;
-            ellipBlack.SetValue(Grid.RowProperty, row);
-            ellipBlack.SetValue(Grid.ColumnProperty, column);
-            board.Children.Add(ellipBlack);
-        }
-        private void createPlayer1Ellipse(Grid sp)
-        {
-            ellipseP1 = new Ellipse();
-            ellipseP1.Name = "player1Ellipse";
-            ellipseP1.Width = 40;
-            ellipseP1.Height = 40;
-            ellipseP1.Margin = new Thickness(5);
-            ellipseP1.Fill = new SolidColorBrush(Colors.White);
-            ellipseP1.VerticalAlignment = VerticalAlignment.Center;
-            sp.Children.Add(ellipseP1);
-            ellipseP1.Visibility = Visibility.Collapsed;
-            ellipseP1.Tapped += EllipseP1_Tapped;
-        }
-        private void peg(int xPos, int yPos)
-        {
+            Button buttonClicked = (Button)sender;
+            int xPos = (int)buttonClicked.GetValue(Grid.RowProperty);
+            int yPos = (int)buttonClicked.GetValue(Grid.ColumnProperty);
+
             foreach (object obj in board.Children)
             {
-                if (typeof(Ellipse) == obj.GetType())
+                if (typeof(Button) == obj.GetType())
                 {
-                    Ellipse piece;
-                    piece = (Ellipse)obj;
-                    if (piece.Name.Contains("white"))
+                    Button butn;
+                    butn = (Button)obj;
+                    if (butn.Content.Equals(""))
                     {
-                        if (((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
-                           ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1) ||
-                           ((int)piece.GetValue(Grid.RowProperty) == xPos) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
-                           ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos) ||
-                           ((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1) ||
-                           ((int)piece.GetValue(Grid.RowProperty) == xPos - 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
-                           ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos + 1) ||
-                           ((int)piece.GetValue(Grid.RowProperty) == xPos + 1) && ((int)piece.GetValue(Grid.ColumnProperty) == yPos - 1))
+                        if (((int)butn.GetValue(Grid.RowProperty) == xPos - 1) && ((int)butn.GetValue(Grid.ColumnProperty) == yPos) ||
+                            ((int)butn.GetValue(Grid.RowProperty) == xPos) && ((int)butn.GetValue(Grid.ColumnProperty) == yPos + 1) ||
+                            ((int)butn.GetValue(Grid.RowProperty) == xPos + 1) && ((int)butn.GetValue(Grid.ColumnProperty) == yPos) ||
+                            ((int)butn.GetValue(Grid.RowProperty) == xPos) && ((int)butn.GetValue(Grid.ColumnProperty) == yPos - 1))
                         {
-                            piece.Name = "blackEllipse";
-                            piece.Fill = new SolidColorBrush(Colors.Black);
+                            butn.Content = buttonClicked.Content;
+                            buttonClicked.Content = "";
                         }
                     }
                 }
             }
-        }
-        private void EllipseP1_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Ellipse toChange = (Ellipse)FindName("Ellipse " + newPieceRow + "_" + newPieceColumn);
-            Ellipse original = (Ellipse)sender;
-            toChange.Name = "white" + "Ellipse " + newPieceRow + "_" + newPieceColumn;
-
-            // 
-            lastPiece = toChange;
-            toChange.Fill = original.Fill;
-            Debug.WriteLine("Name " + lastPiece.Name);
-            ellipseP1.Visibility = Visibility.Collapsed;
-            ellipseP2.Visibility = Visibility.Collapsed;
-            checkPossibleFlips(toChange);
-            white = 0;
-            score.Text = "";
-            countPieces("Player Score : ", "white", white, grd);
-
-        }
-
-        private void countPieces(String player, String wOrbl, int wOrb, Grid g)
-        {
-            for (rowCount = 0; rowCount < 8; rowCount++)
-            {
-                for (colCount = 0; colCount < 8; colCount++)
-                {
-                    foreach (object obj in board.Children)
-                    {
-                        if (typeof(Ellipse) == obj.GetType())
-                        {
-                            Ellipse piece;
-                            piece = (Ellipse)obj;
-                            if (piece.Name.Contains(wOrbl))
-                            {
-                                if (((int)piece.GetValue(Grid.ColumnProperty) == colCount) && ((int)piece.GetValue(Grid.RowProperty) == rowCount))
-                                {
-                                    wOrb++;
-                                }
-                                TextBlock block = (TextBlock)FindName("playerScore");
-                                g.Children.Remove(block);
-                                playersScore(player + wOrb, HorizontalAlignment.Left, g);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void createPlayer2Ellipse(Grid s)
-        {
-            ellipseP2 = new Ellipse();
-            ellipseP2.Name = "player2Ellipse";
-            ellipseP2.Width = 40;
-            ellipseP2.Height = 40;
-            ellipseP2.Margin = new Thickness(5);
-            ellipseP2.Fill = new SolidColorBrush(Colors.Black);
-            ellipseP2.VerticalAlignment = VerticalAlignment.Center;
-            s.Children.Add(ellipseP2);
-            ellipseP2.Visibility = Visibility.Collapsed;
-            ellipseP2.Tapped += Ellipse2_Tapped;
-        }
-
-        private void Ellipse2_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Ellipse toChange = (Ellipse)FindName("Ellipse " + newPieceRow + "_" + newPieceColumn);
-            Ellipse original = (Ellipse)sender;
-            toChange.Name = "black" + "Ellipse " + newPieceRow + "_" + newPieceColumn;
-            toChange.Fill = original.Fill;
-            lastPiece = toChange;
-            Debug.WriteLine("Name " + lastPiece.Name);
-            ellipseP2.Visibility = Visibility.Collapsed;
-            ellipseP1.Visibility = Visibility.Collapsed;
-            //change name and colour
-            peg(newPieceRow, newPieceColumn);
-            checkPossibleFlips(toChange);
-            black = 0;
-            score.Text = "";
-            countPieces("Player Score : ", "black", black, grid);
-        }
-        private void playersScore(String player, HorizontalAlignment alli, Grid g)
-        {
-            score = new TextBlock();
-            score.Name = "playerScore";
-            score.Text = player;
-            score.Margin = new Thickness(5);
-            score.HorizontalAlignment = alli;
-            score.VerticalAlignment = VerticalAlignment.Center;
-            g.Children.Add(score);
         }
     }
 }
