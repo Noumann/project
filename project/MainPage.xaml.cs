@@ -35,6 +35,7 @@ namespace project
         Button btn;
         Grid gridForSP;
         int numOfClicks = 0;
+        int record;
         int rows = 5;
         int buttonName = 1;
 
@@ -50,7 +51,6 @@ namespace project
         {
             mainSP = new StackPanel();
             mainSP.Name = "mainSP";
-            mainSP.Background = new SolidColorBrush(Colors.Gray);
             mainSP.VerticalAlignment = VerticalAlignment.Center;
             mainSP.HorizontalAlignment = HorizontalAlignment.Center;
             mainSP.Orientation = Orientation.Horizontal;
@@ -63,7 +63,6 @@ namespace project
         {
             boardSP = new StackPanel();
             boardSP.Name = "boardSP";
-            boardSP.Background = new SolidColorBrush(Colors.Gray);
             boardSP.VerticalAlignment = VerticalAlignment.Center;
             boardSP.HorizontalAlignment = HorizontalAlignment.Center;
             mainSP.Children.Add(boardSP);
@@ -79,7 +78,6 @@ namespace project
             board.Height = 500;
             board.Width = 500;
             board.Background = new SolidColorBrush(Colors.Cornsilk);
-            board.Margin = new Thickness(5);
             for (int i = 0; i < rows; i++)
             {
                 board.RowDefinitions.Add(new RowDefinition());
@@ -131,9 +129,9 @@ namespace project
         {
             scoreSP = new StackPanel();
             scoreSP.Name = "scoreSP";
-            scoreSP.Background = new SolidColorBrush(Colors.Goldenrod);
+            scoreSP.Background = new SolidColorBrush(Colors.PaleGreen);
             scoreSP.VerticalAlignment = VerticalAlignment.Top;
-            scoreSP.Margin = new Thickness(5);
+            scoreSP.Margin = new Thickness(3);
             scoreSP.Orientation = Orientation.Vertical;
             scoreSP.Height = 500;
             scoreSP.Width = 200;
@@ -151,7 +149,7 @@ namespace project
             btn.Content = btnName;
             btn.SetValue(Grid.RowProperty, row);
             btn.SetValue(Grid.ColumnProperty, column);
-            btn.Background = new SolidColorBrush(Colors.Khaki);
+            btn.Background = new SolidColorBrush(Colors.NavajoWhite);
             board.Children.Add(btn);
             btn.Click += Btn_Click;
         }
@@ -164,7 +162,7 @@ namespace project
             gridForSP.VerticalAlignment = VerticalAlignment.Top;
             gridForSP.Height = 490;
             gridForSP.Width = 200;
-            gridForSP.Background = new SolidColorBrush(Colors.LightPink);
+            gridForSP.Background = new SolidColorBrush(Colors.MintCream);
             gridForSP.Margin = new Thickness(5);
             for (int i = 0; i < 4; i++)
             {
@@ -175,9 +173,13 @@ namespace project
                 gridForSP.ColumnDefinitions.Add(new ColumnDefinition());
             }
             scoreSP.Children.Add(gridForSP);
-            textFields(0, 0, "Clicks  :    ", "clicks");
-            textFields(0, 1, "" + numOfClicks, "score");
-            textFields(1, 0, "", "gameOver");
+            textFields(0, 0, "Best Record", "record");
+            textFields(0, 1, ""+record, "recordScore");
+            textFields(1, 0, "Total Moves", "clicks");
+            textFields(1, 1, "" + numOfClicks, "score");
+            textFields(2, 0, "", "gameOver");
+            exitAndNewGame("New Game",HorizontalAlignment.Center,VerticalAlignment.Top);
+            exitAndNewGame("Exit", HorizontalAlignment.Center, VerticalAlignment.Center);
         }
 
         private void textFields(int row, int column, String txt, String name)
@@ -299,9 +301,13 @@ namespace project
                                                                                                         if (but.Content.Equals("24"))
                                                                                                         {
                                                                                                             TextBlock txt = FindName("gameOver") as TextBlock;
-                                                                                                            txt.Text = "Well Done...!!!";
+                                                                                                            txt.Text = "Well Done.!!!";
+                                                                                                            record = numOfClicks;
+                                                                                                            TextBlock recordScore = FindName("recordScore") as TextBlock;
+                                                                                                            recordScore.Text = "" + record;
                                                                                                             var dialog = new Windows.UI.Popups.MessageDialog("Well Done.....!!!\nCLOSE TO START NEW GAME");
                                                                                                             await dialog.ShowAsync();
+                                                                                                            shuffle();
                                                                                                         }
                                                                                                     }
                                                                                                 }
@@ -371,6 +377,26 @@ namespace project
                 }
             }
             numOfClicks = 0;
+            TextBlock txt = FindName("score") as TextBlock;
+            txt.Text = "" + numOfClicks;
+            TextBlock gameOver = FindName("gameOver") as TextBlock;
+            gameOver.Text = "";
+        }
+
+        private void exitAndNewGame(String name,HorizontalAlignment allign,VerticalAlignment vAllign)
+        {
+            Button butn = new Button();
+            butn.Width = 100;
+            butn.Height = 38;
+            butn.Margin = new Thickness(3);
+            butn.HorizontalAlignment = allign;
+            butn.VerticalAlignment = vAllign;
+            butn.Content = name;
+            butn.SetValue(Grid.RowProperty,3);
+            butn.SetValue(Grid.ColumnProperty,0);
+            butn.SetValue(Grid.ColumnSpanProperty, 2);
+            butn.Background = new SolidColorBrush(Colors.GhostWhite);
+            gridForSP.Children.Add(butn);
         }
     }
 }
