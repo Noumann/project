@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -33,6 +34,7 @@ namespace project
         Grid board;
         Border border;
         Button btn;
+        TextBlock t;
         Grid gridForSP;
         int numOfClicks = 0;
         int record=0;
@@ -44,8 +46,26 @@ namespace project
         public MainPage()
         {
             this.InitializeComponent();
+            this.Loading += MainPage_Loading;
             mainStackPanel();
-            shuffle();
+            //shuffle();
+        }
+        
+        private void MainPage_Loading(FrameworkElement sender, object args)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string strSetting;            
+            try
+            {
+                strSetting = localSettings.Values["recordScore"].ToString();
+                t = FindName("recordScore") as TextBlock;
+                t.Text = strSetting;
+                record = Convert.ToInt32(strSetting);              
+            }
+            catch (Exception ex)
+            {
+                t.Text = "Error: " + ex.HResult + ", " + ex.Message;
+            }
         }
         #endregion
 
@@ -60,7 +80,7 @@ namespace project
             rootGrid.Children.Add(mainSP);
             PlaneProjection m = new PlaneProjection();
             m.RotationX = -10;
-            m.RotationZ = -20;
+            m.RotationZ = -2;
             mainSP.Projection = m;
             boardStackPanel();
             scoreStackPanel();
@@ -107,7 +127,7 @@ namespace project
                 {
                     if (r == row && c == column)
                     {
-                        btn.Content = "";
+                        btn.Content = " ";
                         buttonName--;
                     }
                     buttonsForGrid("" + buttonName, r, c);
@@ -192,8 +212,8 @@ namespace project
                 gridForSP.ColumnDefinitions.Add(new ColumnDefinition());
             }
             scoreSP.Children.Add(gridForSP);
-            textFields(0, 0, "Best Record", "record");
-            textFields(0, 1, "" + record+" Moves", "recordScore");
+            textFields(0, 0, "Least Moves", "record");
+            textFields(0, 1, "" + record, "recordScore");
             textFields(1, 0, "Total Moves", "clicks");
             textFields(1, 1, "" + numOfClicks, "score");
             textFields(2, 0, "", "gameOver");
@@ -230,7 +250,7 @@ namespace project
                 {
                     Button butn;
                     butn = (Button)obj;
-                    if (butn.Content.Equals(""))
+                    if (butn.Content.Equals(" "))
                     {
                         if (((int)butn.GetValue(Grid.RowProperty) == xPos - 1) && ((int)butn.GetValue(Grid.ColumnProperty) == yPos) ||
                             ((int)butn.GetValue(Grid.RowProperty) == xPos) && ((int)butn.GetValue(Grid.ColumnProperty) == yPos + 1) ||
@@ -238,7 +258,7 @@ namespace project
                             ((int)butn.GetValue(Grid.RowProperty) == xPos) && ((int)butn.GetValue(Grid.ColumnProperty) == yPos - 1))
                         {
                             butn.Content = buttonClicked.Content;
-                            buttonClicked.Content = "";
+                            buttonClicked.Content = " ";
                             TextBlock txt = FindName("score") as TextBlock;
                             numOfClicks++;
                             txt.Text = "" + numOfClicks;
@@ -327,9 +347,30 @@ namespace project
                                                                                                         {
                                                                                                             TextBlock txt = FindName("gameOver") as TextBlock;
                                                                                                             txt.Text = "Well Done.!!!";
-                                                                                                            record = numOfClicks;
-                                                                                                            TextBlock recordScore = FindName("recordScore") as TextBlock;
-                                                                                                            recordScore.Text = "" + record+" Moves";
+
+                                                                                                            if (record > numOfClicks)
+                                                                                                            {
+                                                                                                                record = numOfClicks;
+                                                                                                                TextBlock recordScore = FindName("recordScore") as TextBlock;
+                                                                                                                recordScore.Text = "" + record;
+                                                                                                                // access the data container called LocalSettings
+                                                                                                                //reading
+                                                                                                                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                                                                                                                try
+                                                                                                                {
+                                                                                                                    int temp = Convert.ToInt32(localSettings.Values["recordScore"]);
+                                                                                                                    if (temp > record)
+                                                                                                                    {
+                                                                                                                        localSettings.Values["recordScore"] = record.ToString();
+                                                                                                                    }
+                                                                                                                }
+                                                                                                                catch
+                                                                                                                {
+                                                                                                                    // doesn't exist, just set the value
+                                                                                                                    localSettings.Values["recordScore"] = record.ToString();
+                                                                                                                }
+                                                                                                            }
+
                                                                                                             var dialog = new Windows.UI.Popups.MessageDialog("Well Done.....!!!\nCLOSE TO START NEW GAME");
                                                                                                             await dialog.ShowAsync();
                                                                                                             rootGrid.Children.Remove(mainSP);
@@ -398,7 +439,7 @@ namespace project
                 for (int col = 0; col < rows; col++)
                 {
                     Button but = FindName("Button" + row + "_" + col) as Button;
-                    if (!(but.Content.Equals("")))
+                    if (!(but.Content.Equals(" ")))
                     {
                         but.Content = a[l];
                         l++;
