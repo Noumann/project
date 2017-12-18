@@ -67,7 +67,7 @@ namespace project
             //throw an error exception if there is any
             catch (Exception ex)
             {
-                t.Text = "Error: " + ex.HResult + ", " + ex.Message;
+               Debug.WriteLine( ex.Message);
             }
         }
         #endregion
