@@ -26,7 +26,7 @@ namespace project
     public sealed partial class MainPage : Page
     {
 
-
+        #region Global Variables
         StackPanel mainSP;
         StackPanel boardSP;
         StackPanel scoreSP;
@@ -35,18 +35,21 @@ namespace project
         Button btn;
         Grid gridForSP;
         int numOfClicks = 0;
-        int record;
+        int record=0;
         int rows = 5;
         int buttonName = 1;
+        #endregion
 
+        #region Main Page
         public MainPage()
         {
             this.InitializeComponent();
             mainStackPanel();
             shuffle();
         }
+        #endregion
 
-
+        #region Main Stack Panel
         private void mainStackPanel()
         {
             mainSP = new StackPanel();
@@ -55,10 +58,16 @@ namespace project
             mainSP.HorizontalAlignment = HorizontalAlignment.Center;
             mainSP.Orientation = Orientation.Horizontal;
             rootGrid.Children.Add(mainSP);
+            PlaneProjection m = new PlaneProjection();
+            m.RotationX = -10;
+            m.RotationZ = -20;
+            mainSP.Projection = m;
             boardStackPanel();
             scoreStackPanel();
         }
+        #endregion
 
+        #region Stack Panel for creating the board
         private void boardStackPanel()
         {
             boardSP = new StackPanel();
@@ -68,7 +77,9 @@ namespace project
             mainSP.Children.Add(boardSP);
             creatBoard();
         }
+        #endregion
 
+        #region Creating the Board and Populating it with the Buttons
         private void creatBoard()
         {
             board = new Grid();
@@ -104,7 +115,9 @@ namespace project
                 }
             }
         }
+        #endregion
 
+        #region Border for the Board
         private void borderForBoard()
         {
             for (int row = 0; row < rows; row++)
@@ -124,7 +137,9 @@ namespace project
                 }
             }
         }
+        #endregion
 
+        #region Stack panel for score and record score and creating new game and Exit the game
         private void scoreStackPanel()
         {
             scoreSP = new StackPanel();
@@ -138,7 +153,9 @@ namespace project
             mainSP.Children.Add(scoreSP);
             gridForScoreSP();
         }
+        #endregion
 
+        #region Creating the buttons
         private void buttonsForGrid(String btnName, int row, int column)
         {
             btn = new Button();
@@ -149,11 +166,13 @@ namespace project
             btn.Content = btnName;
             btn.SetValue(Grid.RowProperty, row);
             btn.SetValue(Grid.ColumnProperty, column);
-            btn.Background = new SolidColorBrush(Colors.NavajoWhite);
+            btn.Background = new SolidColorBrush(Colors.NavajoWhite);          
             board.Children.Add(btn);
             btn.Click += Btn_Click;
         }
+        #endregion
 
+        #region Creating a grid to give sections to each component e.g New Game or Exit
         private void gridForScoreSP()
         {
             gridForSP = new Grid();
@@ -174,14 +193,16 @@ namespace project
             }
             scoreSP.Children.Add(gridForSP);
             textFields(0, 0, "Best Record", "record");
-            textFields(0, 1, ""+record, "recordScore");
+            textFields(0, 1, "" + record+" Moves", "recordScore");
             textFields(1, 0, "Total Moves", "clicks");
             textFields(1, 1, "" + numOfClicks, "score");
             textFields(2, 0, "", "gameOver");
-            exitAndNewGame("New Game",HorizontalAlignment.Center,VerticalAlignment.Top);
-            exitAndNewGame("Exit", HorizontalAlignment.Center, VerticalAlignment.Center);
+            exitAndNewGame("newGame", "New Game", HorizontalAlignment.Center, VerticalAlignment.Top);
+            exitAndNewGame("exit", "Exit", HorizontalAlignment.Center, VerticalAlignment.Center);
         }
+        #endregion
 
+        #region Creating the Text Fields or Lables to display the required information
         private void textFields(int row, int column, String txt, String name)
         {
             TextBlock text = new TextBlock();
@@ -194,7 +215,9 @@ namespace project
             text.VerticalAlignment = VerticalAlignment.Center;
             gridForSP.Children.Add(text);
         }
+        #endregion
 
+        #region Button click event on the main Grid
         private void Btn_Click(object sender, RoutedEventArgs e)
         {
             Button buttonClicked = (Button)sender;
@@ -225,7 +248,9 @@ namespace project
                 }
             }
         }
+        #endregion
 
+        #region Ckecking whether the Puzzle is Solved or not
         private async void solvedOrNot()
         {
             Button but = FindName("Button" + 0 + "_" + 0) as Button;
@@ -304,9 +329,11 @@ namespace project
                                                                                                             txt.Text = "Well Done.!!!";
                                                                                                             record = numOfClicks;
                                                                                                             TextBlock recordScore = FindName("recordScore") as TextBlock;
-                                                                                                            recordScore.Text = "" + record;
+                                                                                                            recordScore.Text = "" + record+" Moves";
                                                                                                             var dialog = new Windows.UI.Popups.MessageDialog("Well Done.....!!!\nCLOSE TO START NEW GAME");
                                                                                                             await dialog.ShowAsync();
+                                                                                                            rootGrid.Children.Remove(mainSP);
+                                                                                                            mainStackPanel();
                                                                                                             shuffle();
                                                                                                         }
                                                                                                     }
@@ -333,7 +360,9 @@ namespace project
                 }
             }
         }
+        #endregion
 
+        #region Shuffle the Buttons to create a new game or creat a Puzzle
         private void shuffle()
         {
             int i, j;
@@ -343,7 +372,7 @@ namespace project
             do
             {
                 Random rand = new Random();
-                int Rn = Convert.ToInt32((rand.Next(0, 24))+1);
+                int Rn = Convert.ToInt32((rand.Next(0, 24)) + 1);
                 for (j = 1; j <= i; j++)
                 {
                     if (a[j] == Rn)
@@ -370,7 +399,7 @@ namespace project
                 {
                     Button but = FindName("Button" + row + "_" + col) as Button;
                     if (!(but.Content.Equals("")))
-                    {                       
+                    {
                         but.Content = a[l];
                         l++;
                     }
@@ -382,21 +411,45 @@ namespace project
             TextBlock gameOver = FindName("gameOver") as TextBlock;
             gameOver.Text = "";
         }
+        #endregion
 
-        private void exitAndNewGame(String name,HorizontalAlignment allign,VerticalAlignment vAllign)
+        #region Create Button to either create a new Game or exit the current game
+        private void exitAndNewGame(String butnName, String name, HorizontalAlignment allign, VerticalAlignment vAllign)
         {
             Button butn = new Button();
             butn.Width = 100;
             butn.Height = 38;
+            butn.Name = butnName;
             butn.Margin = new Thickness(3);
             butn.HorizontalAlignment = allign;
             butn.VerticalAlignment = vAllign;
             butn.Content = name;
-            butn.SetValue(Grid.RowProperty,3);
-            butn.SetValue(Grid.ColumnProperty,0);
+            butn.SetValue(Grid.RowProperty, 3);
+            butn.SetValue(Grid.ColumnProperty, 0);
             butn.SetValue(Grid.ColumnSpanProperty, 2);
             butn.Background = new SolidColorBrush(Colors.GhostWhite);
             gridForSP.Children.Add(butn);
+            butn.Click += Butn_Click;
         }
+        #endregion
+
+        #region Click event on Button to create a new game or Exit the Game
+        private void Butn_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            if (button.Content.Equals("New Game"))
+            {
+                rootGrid.Children.Remove(mainSP);
+                mainStackPanel();
+                shuffle();
+            }
+            else if (button.Content.Equals("Exit"))
+            {
+                Application.Current.Exit();
+            }
+        }
+        #endregion
+
+
     }
 }
