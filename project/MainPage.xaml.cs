@@ -42,6 +42,7 @@ namespace project
         {
             this.InitializeComponent();
             mainStackPanel();
+            shuffle();
         }
 
 
@@ -99,10 +100,9 @@ namespace project
                     {
                         btn.Content = "";
                         buttonName--;
-                    }                    
+                    }
                     buttonsForGrid("" + buttonName, r, c);
                     buttonName++;
-                    Debug.WriteLine(btn.Name);
                 }
             }
         }
@@ -136,7 +136,7 @@ namespace project
             scoreSP.Margin = new Thickness(5);
             scoreSP.Orientation = Orientation.Vertical;
             scoreSP.Height = 500;
-            scoreSP.Width = 300;
+            scoreSP.Width = 200;
             mainSP.Children.Add(scoreSP);
             gridForScoreSP();
         }
@@ -144,7 +144,7 @@ namespace project
         private void buttonsForGrid(String btnName, int row, int column)
         {
             btn = new Button();
-            btn.Name = "Button" + row+"_"+column;
+            btn.Name = "Button" + row + "_" + column;
             btn.Width = 95;
             btn.Height = 95;
             btn.Margin = new Thickness(3);
@@ -163,7 +163,7 @@ namespace project
             gridForSP.HorizontalAlignment = HorizontalAlignment.Center;
             gridForSP.VerticalAlignment = VerticalAlignment.Top;
             gridForSP.Height = 490;
-            gridForSP.Width = 300;
+            gridForSP.Width = 200;
             gridForSP.Background = new SolidColorBrush(Colors.LightPink);
             gridForSP.Margin = new Thickness(5);
             for (int i = 0; i < 4; i++)
@@ -175,19 +175,20 @@ namespace project
                 gridForSP.ColumnDefinitions.Add(new ColumnDefinition());
             }
             scoreSP.Children.Add(gridForSP);
-            textFields(0,0,"Clicks : ","clicks");
-            textFields(0, 1, ""+numOfClicks,"score");
+            textFields(0, 0, "Clicks  :    ", "clicks");
+            textFields(0, 1, "" + numOfClicks, "score");
+            textFields(1, 0, "", "gameOver");
         }
 
-        private void textFields(int row,int column,String txt,String name)
+        private void textFields(int row, int column, String txt, String name)
         {
             TextBlock text = new TextBlock();
             text.Text = txt;
             text.Name = name;
             text.Margin = new Thickness(10);
-            text.SetValue(Grid.RowProperty,row);
+            text.SetValue(Grid.RowProperty, row);
             text.SetValue(Grid.ColumnProperty, column);
-            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.HorizontalAlignment = HorizontalAlignment.Left;
             text.VerticalAlignment = VerticalAlignment.Center;
             gridForSP.Children.Add(text);
         }
@@ -223,9 +224,9 @@ namespace project
             }
         }
 
-        private void solvedOrNot()
+        private async void solvedOrNot()
         {
-            Button but = FindName("Button" + 0 +"_" + 0) as Button;
+            Button but = FindName("Button" + 0 + "_" + 0) as Button;
             if (but.Content.Equals("1"))
             {
                 but = FindName("Button" + 0 + "_" + 1) as Button;
@@ -237,12 +238,139 @@ namespace project
                         but = FindName("Button" + 0 + "_" + 3) as Button;
                         if (but.Content.Equals("4"))
                         {
-                            TextBlock txt = FindName("score") as TextBlock;
-                            txt.Text = "Done";
+                            but = FindName("Button" + 0 + "_" + 4) as Button;
+                            if (but.Content.Equals("5"))
+                            {
+                                but = FindName("Button" + 1 + "_" + 0) as Button;
+                                if (but.Content.Equals("6"))
+                                {
+                                    but = FindName("Button" + 1 + "_" + 1) as Button;
+                                    if (but.Content.Equals("7"))
+                                    {
+                                        but = FindName("Button" + 1 + "_" + 2) as Button;
+                                        if (but.Content.Equals("8"))
+                                        {
+                                            but = FindName("Button" + 1 + "_" + 3) as Button;
+                                            if (but.Content.Equals("9"))
+                                            {
+                                                but = FindName("Button" + 1 + "_" + 4) as Button;
+                                                if (but.Content.Equals("10"))
+                                                {
+                                                    but = FindName("Button" + 2 + "_" + 0) as Button;
+                                                    if (but.Content.Equals("11"))
+                                                    {
+                                                        but = FindName("Button" + 2 + "_" + 1) as Button;
+                                                        if (but.Content.Equals("12"))
+                                                        {
+                                                            but = FindName("Button" + 2 + "_" + 2) as Button;
+                                                            if (but.Content.Equals("13"))
+                                                            {
+                                                                but = FindName("Button" + 2 + "_" + 3) as Button;
+                                                                if (but.Content.Equals("14"))
+                                                                {
+                                                                    but = FindName("Button" + 2 + "_" + 4) as Button;
+                                                                    if (but.Content.Equals("15"))
+                                                                    {
+                                                                        but = FindName("Button" + 3 + "_" + 0) as Button;
+                                                                        if (but.Content.Equals("16"))
+                                                                        {
+                                                                            but = FindName("Button" + 3 + "_" + 1) as Button;
+                                                                            if (but.Content.Equals("17"))
+                                                                            {
+                                                                                but = FindName("Button" + 3 + "_" + 2) as Button;
+                                                                                if (but.Content.Equals("18"))
+                                                                                {
+                                                                                    but = FindName("Button" + 3 + "_" + 3) as Button;
+                                                                                    if (but.Content.Equals("19"))
+                                                                                    {
+                                                                                        but = FindName("Button" + 3 + "_" + 4) as Button;
+                                                                                        if (but.Content.Equals("20"))
+                                                                                        {
+                                                                                            but = FindName("Button" + 4 + "_" + 0) as Button;
+                                                                                            if (but.Content.Equals("21"))
+                                                                                            {
+                                                                                                but = FindName("Button" + 4 + "_" + 1) as Button;
+                                                                                                if (but.Content.Equals("22"))
+                                                                                                {
+                                                                                                    but = FindName("Button" + 4 + "_" + 2) as Button;
+                                                                                                    if (but.Content.Equals("23"))
+                                                                                                    {
+                                                                                                        but = FindName("Button" + 4 + "_" + 3) as Button;
+                                                                                                        if (but.Content.Equals("24"))
+                                                                                                        {
+                                                                                                            TextBlock txt = FindName("gameOver") as TextBlock;
+                                                                                                            txt.Text = "Well Done...!!!";
+                                                                                                            var dialog = new Windows.UI.Popups.MessageDialog("Well Done.....!!!\nCLOSE TO START NEW GAME");
+                                                                                                            await dialog.ShowAsync();
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private void shuffle()
+        {
+            int i, j;
+            int[] a = new int[25];
+            Boolean flag = false;
+            i = 1;
+            do
+            {
+                Random rand = new Random();
+                int Rn = Convert.ToInt32((rand.Next(0, 24))+1);
+                for (j = 1; j <= i; j++)
+                {
+                    if (a[j] == Rn)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag == true)
+                {
+                    flag = false;
+                }
+                else
+                {
+                    a[i] = Rn;
+                    i = i + 1;
+                }
+            } while (i <= 24);
+
+            int l = 1;
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < rows; col++)
+                {
+                    Button but = FindName("Button" + row + "_" + col) as Button;
+                    if (!(but.Content.Equals("")))
+                    {                       
+                        but.Content = a[l];
+                        l++;
+                    }
+                }
+            }
+            numOfClicks = 0;
         }
     }
 }
