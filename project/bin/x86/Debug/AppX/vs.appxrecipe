@@ -9,32 +9,32 @@
     <SolutionConfiguration>Debug|x86</SolutionConfiguration>
     <PackageArchitecture>x86</PackageArchitecture>
     <PackageIdentityName>9f553296-15f0-4dc2-ae46-8543c710c7a8</PackageIdentityName>
-    <PackageIdentityPublisher>CN=Nouman</PackageIdentityPublisher>
+    <PackageIdentityPublisher>CN=66B81AC1-91D4-4D5E-8552-1C5331FD2B33</PackageIdentityPublisher>
     <IntermediateOutputPath>C:\Users\Nouman\Desktop\project\project\obj\x86\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType>
     </RemoteDeploymentType>
     <PackageRegistrationPath>
     </PackageRegistrationPath>
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
-    <RegisteredManifestChecksum>552D44A6A826EC8F1BD2910D7E566E08C15CF7C14B3AAAC0AB74F621B240670A</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>9f553296-15f0-4dc2-ae46-8543c710c7a8_1.0.0.0_x86__tje50ebxqanwp</RegisteredPackageMoniker>
-    <RegisteredUserModeAppID>9f553296-15f0-4dc2-ae46-8543c710c7a8_tje50ebxqanwp!App</RegisteredUserModeAppID>
-    <RegisteredPackageID>9f553296-15f0-4dc2-ae46-8543c710c7a8</RegisteredPackageID>
-    <RegisteredPackagePublisher>CN=Nouman</RegisteredPackagePublisher>
-    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+    <RegisteredManifestChecksum>07C703DC6BFCEF5BB1114195A2B87155BB6014FC10AE76EE5162DD1E9D444E27</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>39017MuhammadNoumanZafar.SlidingPuzzle5X5_1.1.0.0_x86__7f47b1q21rdwp</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>39017MuhammadNoumanZafar.SlidingPuzzle5X5_7f47b1q21rdwp!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>39017MuhammadNoumanZafar.SlidingPuzzle5X5</RegisteredPackageID>
+    <RegisteredPackagePublisher>CN=66B81AC1-91D4-4D5E-8552-1C5331FD2B33</RegisteredPackagePublisher>
+    <RegisteredVersion>1.1.0.0</RegisteredVersion>
     <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
   </PropertyGroup>
   <ItemGroup>
     <AppXManifest Include="C:\Users\Nouman\Desktop\project\project\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-12-18T22:37:25.843</Modified>
+      <Modified>2017-12-19T00:13:38.046</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\bin\x86\Debug\project.exe">
       <PackagePath>entrypoint\project.exe</PackagePath>
-      <Modified>2017-12-18T22:37:24.446</Modified>
+      <Modified>2017-12-19T00:13:34.470</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\.nuget\packages\Microsoft.CSharp\4.0.0\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -459,32 +459,32 @@
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-09-20T16:30:08.000</Modified>
+      <Modified>2017-12-18T23:36:10.023</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-12-18T21:29:31.594</Modified>
+      <Modified>2017-12-18T23:29:00.010</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-09-20T16:30:08.000</Modified>
+      <Modified>2017-12-18T23:22:06.150</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-09-20T16:30:08.000</Modified>
+      <Modified>2017-12-18T23:23:56.991</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-09-20T16:30:08.000</Modified>
+      <Modified>2017-12-18T23:12:53.968</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-09-20T16:30:08.000</Modified>
+      <Modified>2017-12-18T23:34:32.585</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\bin\x86\Debug\project.xr.xml">
       <PackagePath>project.xr.xml</PackagePath>
@@ -497,11 +497,11 @@
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-12-18T22:37:25.558</Modified>
+      <Modified>2017-12-19T00:13:37.339</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Nouman\Desktop\project\project\bin\x86\Debug\Core\project.exe">
       <PackagePath>project.exe</PackagePath>
-      <Modified>2017-12-18T22:37:25.843</Modified>
+      <Modified>2017-12-19T00:13:38.019</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

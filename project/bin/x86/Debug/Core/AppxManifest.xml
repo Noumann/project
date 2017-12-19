@@ -7,11 +7,11 @@
 
     For more information on package manifest files, see http://go.microsoft.com/fwlink/?LinkID=241727
   -->
-  <Identity Name="9f553296-15f0-4dc2-ae46-8543c710c7a8" Publisher="CN=Nouman" Version="1.0.0.0" ProcessorArchitecture="x86" />
+  <Identity Name="39017MuhammadNoumanZafar.SlidingPuzzle5X5" Publisher="CN=66B81AC1-91D4-4D5E-8552-1C5331FD2B33" Version="1.1.0.0" ProcessorArchitecture="x86" />
   <mp:PhoneIdentity PhoneProductId="9f553296-15f0-4dc2-ae46-8543c710c7a8" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>project</DisplayName>
-    <PublisherDisplayName>Nouman</PublisherDisplayName>
+    <DisplayName>Sliding Puzzle 5X5</DisplayName>
+    <PublisherDisplayName>Muhammad Nouman Zafar</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -24,8 +24,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="project.exe" EntryPoint="project.App">
-      <uap:VisualElements DisplayName="project" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="project" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+      <uap:VisualElements DisplayName="Sliding Puzzle 5X5" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="project" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"></uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
@@ -37,9 +37,9 @@
     <build:Item Name="TargetFrameworkMoniker" Value=".NETCore,Version=v5.0" />
     <build:Item Name="VisualStudio" Version="14.0" />
     <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Community 2015" />
-    <build:Item Name="OperatingSystem" Version="10.0.15063.0 (WinBuild.160101.0800)" />
+    <build:Item Name="OperatingSystem" Version="10.0.16299.15 (WinBuild.160101.0800)" />
     <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="14.0.25431.1" />
-    <build:Item Name="ProjectGUID" Value="{a97ac927-68ca-4dba-8161-21e9f6042128}" />
+    <build:Item Name="ProjectGUID" Value="{A97AC927-68CA-4DBA-8161-21E9F6042128}" />
     <build:Item Name="OptimizingToolset" Value="None" />
     <build:Item Name="TargetRuntime" Value="Managed" />
     <build:Item Name="Microsoft.Windows.UI.Xaml.Build.Tasks.dll" Version="14.0.25527.1" />
